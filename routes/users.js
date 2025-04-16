@@ -121,4 +121,31 @@ router.get("/me", async (req, res) => {
   }
 });
 
+// @route   POST /users/email
+router.post("/email", async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    const snapshot = await usersRef.where("email", "==", email).get();
+
+    if (snapshot.empty) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const userDoc = snapshot.docs[0];
+    const user = userDoc.data();
+
+    res.json({
+      id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+    });
+  } catch (err) {
+    res
+      .status(500)
+      .json({ error: "Failed to retrieve user", details: err.message });
+  }
+});
+
 module.exports = router;
