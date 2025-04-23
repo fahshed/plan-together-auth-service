@@ -16,7 +16,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/", indexRouter);
-app.use("/auth", usersRouter);
+app.use("/api/auth/index", indexRouter);
+app.use("/api/auth", usersRouter);
 
 module.exports = app;
